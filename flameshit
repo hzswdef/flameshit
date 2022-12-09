@@ -12,7 +12,7 @@ then
     exit 0;
 fi
 
-if FLAMESHOT_BIN=$(which flameshot2); then
+if FLAMESHOT_BIN=$(which flameshot); then
     $FLAMESHOT_BIN gui --path $FLAMESHIT_SCREENSHOTS_SAVE_PATH;
 else
     echo "Flameshot binary didn't find. Please install flameshot from official source - https://flameshot.org/docs/installation/installation-linux/";
