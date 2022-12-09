@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Specify the screenshots save directory to $FLAMESHIT_SCREENSHOTS_SAVE_PATH.
+# Important to set the absolute path like - "/home/user/Pictures/Screenshots/"
+#
+# Command to add the $FLAMESHIT_SCREENSHOTS_SAVE_PATH variable -
+#   export FLAMESHIT_SCREENSHOTS_SAVE_PATH="/home/user/Pictures/Screenshots"
+
+if [ -z "$FLAMESHIT_SCREENSHOTS_SAVE_PATH" ]
+then
+    echo "\$FLAMESHIT_SCREENSHOTS_SAVE_PATH are not specified. Please see README.md";
+    exit 0;
+fi
+
+if FLAMESHOT_BIN=$(which flameshot2); then
+    $FLAMESHOT_BIN gui --path $FLAMESHIT_SCREENSHOTS_SAVE_PATH;
+else
+    echo "Flameshot binary didn't find. Please install flameshot from official source - https://flameshot.org/docs/installation/installation-linux/";
+    exit 0;
+fi
+
+# Get absolute path to new screenshot.
+SCREENSHOT_PATH=$FLAMESHIT_SCREENSHOTS_SAVE_PATH$(ls -t -A1 $FLAMESHIT_SCREENSHOTS_SAVE_PATH | head -1);
+
+if [[ "$(which xclip)" ]]; then
+    # Copy to clipboard the new screenshot.
+    xclip -selection clipboard -t image/png -i $SCREENSHOT_PATH;
+else
+    echo "Please install xclip to copy screenshot to clipboard.";
+    exit 0;
+fi
